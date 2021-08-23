@@ -18,7 +18,7 @@ public class RpgBackpackApiApplication {
         FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
         AuthFilter authFilter = new AuthFilter();
         registrationBean.setFilter(authFilter);
-        registrationBean.addUrlPatterns("/api/sessions/*");
+        registrationBean.addUrlPatterns("/api/app/*");
         return registrationBean;
     }
 }

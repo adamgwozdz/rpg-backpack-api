@@ -30,9 +30,9 @@ public class UserResource {
                 .signWith(SignatureAlgorithm.HS256, Constants.API_SECRET_KEY)
                 .setIssuedAt(new Date(timestamp))
                 .setExpiration(new Date(timestamp + Constants.TOKEN_VALIDITY))
-                .claim("usr_id", user.getUserId())
-                .claim("usr_email", user.getEmail())
-                .claim("usr_name", user.getName())
+                .claim("userId", user.getUserId())
+                .claim("email", user.getEmail())
+                .claim("name", user.getName())
                 .compact();
         Map<String, String> map = new HashMap<>();
         map.put("token", token);
