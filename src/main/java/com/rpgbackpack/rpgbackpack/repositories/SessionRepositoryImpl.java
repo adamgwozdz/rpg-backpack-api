@@ -21,7 +21,7 @@ public class SessionRepositoryImpl implements SessionRepository {
     private static final String SQL_FIND_BY_ID = "SELECT ses_id, ses_name, ses_password, ses_max_attributes, " +
             "ses_audit_created, ses_audit_modified, ses_audit_removed, ses_image " +
             "FROM sessions " +
-            "WHERE ses_id = 1";
+            "WHERE ses_id = ?";
 
     private static final String SQL_CREATE = "INSERT INTO sessions (ses_name, ses_password, ses_max_attributes, " +
             "ses_image) VALUES (?, ?, ?, ?)";
@@ -45,13 +45,13 @@ public class SessionRepositoryImpl implements SessionRepository {
 
     @Override
     public Integer create(String name, String password, Integer maxAttributes, String image) throws EtBadRequestException {
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
+        //String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, name);
-                ps.setString(2, hashedPassword);
+                ps.setString(2, password);
                 ps.setInt(3, maxAttributes);
                 ps.setString(4, image);
                 return ps;

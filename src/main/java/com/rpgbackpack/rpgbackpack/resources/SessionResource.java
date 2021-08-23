@@ -24,7 +24,7 @@ public class SessionResource {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Session> addSession(HttpServletRequest request, @RequestBody Map<String, Object> sessionMap) {
+    public ResponseEntity<Session> addSession(@RequestBody Map<String, Object> sessionMap) {
         String name = (String) sessionMap.get("name");
         String password = (String) sessionMap.get("password");
         Integer maxAttributes = (Integer) sessionMap.get("maxAttributes");

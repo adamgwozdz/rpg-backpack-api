@@ -17,21 +17,21 @@ public class User {
     private Boolean admin;
     private String profileImage;
 
-    public User(Integer usr_id, String usr_email, String usr_name, String usr_password, Boolean usr_email_verified, Boolean usr_subscription,
-                Timestamp usr_audit_created, Timestamp usr_audit_modified, Timestamp usr_audit_removed,
-                Timestamp usr_audit_subscribed, Boolean usr_admin, String usr_profile_image) {
-        this.userId = usr_id;
-        this.email = usr_email;
-        this.name = usr_name;
-        this.password = usr_password;
-        this.emailVerified = usr_email_verified;
-        this.subscription = usr_subscription;
-        this.dateCreated = usr_audit_created;
-        this.dateModified = usr_audit_modified;
-        this.dateRemoved = usr_audit_removed;
-        this.dateSubscribed = usr_audit_subscribed;
-        this.admin = usr_admin;
-        this.profileImage = usr_profile_image;
+    public User(Integer userId, String email, String name, String password, Boolean emailVerified, Boolean subscription,
+                Timestamp dateCreated, Timestamp dateModified, Timestamp dateRemoved,
+                Timestamp dateSubscribed, Boolean admin, String profileImage) {
+        this.userId = userId;
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.emailVerified = emailVerified;
+        this.subscription = subscription;
+        this.dateCreated = dateCreated;
+        this.dateModified = dateModified;
+        this.dateRemoved = dateRemoved;
+        this.dateSubscribed = dateSubscribed;
+        this.admin = admin;
+        this.profileImage = profileImage;
     }
 
     public Integer getUserId() {
