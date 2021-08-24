@@ -3,6 +3,7 @@ package com.rpgbackpack.rpgbackpack.services;
 import com.rpgbackpack.rpgbackpack.domain.Session;
 import com.rpgbackpack.rpgbackpack.exceptions.EtBadRequestException;
 import com.rpgbackpack.rpgbackpack.exceptions.EtResourceNotFoundException;
+import com.rpgbackpack.rpgbackpack.exceptions.RpgAuthException;
 import com.rpgbackpack.rpgbackpack.repositories.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,12 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public List<Session> fetchAllSessions() throws EtResourceNotFoundException {
-        return null;
+        return sessionRepository.findAll();
     }
 
     @Override
     public Session fetchSessionById(Integer sessionId) throws EtResourceNotFoundException {
-        return null;
+        return sessionRepository.findById(sessionId);
     }
 
     @Override
@@ -35,11 +36,16 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public void updateSession(Integer sessionId, Session session) throws EtBadRequestException {
-
+        sessionRepository.update(sessionId, session);
     }
 
     @Override
     public void removeSessionWithAllPlayers(Integer sessionId) throws EtResourceNotFoundException {
 
+    }
+
+    @Override
+    public Session validateSession(Integer sessionId, String name, String password) throws RpgAuthException {
+        return sessionRepository.findByIdNameAndPassword(sessionId, name, password);
     }
 }

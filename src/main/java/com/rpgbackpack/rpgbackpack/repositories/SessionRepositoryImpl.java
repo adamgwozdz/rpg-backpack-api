@@ -3,8 +3,10 @@ package com.rpgbackpack.rpgbackpack.repositories;
 import com.rpgbackpack.rpgbackpack.domain.Session;
 import com.rpgbackpack.rpgbackpack.exceptions.EtBadRequestException;
 import com.rpgbackpack.rpgbackpack.exceptions.EtResourceNotFoundException;
+import com.rpgbackpack.rpgbackpack.exceptions.RpgAuthException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -18,6 +20,10 @@ import java.util.List;
 @Repository
 public class SessionRepositoryImpl implements SessionRepository {
 
+    private static final String SQL_FIND_ALL = "SELECT ses_id, ses_name, ses_password, ses_max_attributes, " +
+            "ses_audit_created, ses_audit_modified, ses_audit_removed, ses_image " +
+            "FROM sessions";
+
     private static final String SQL_FIND_BY_ID = "SELECT ses_id, ses_name, ses_password, ses_max_attributes, " +
             "ses_audit_created, ses_audit_modified, ses_audit_removed, ses_image " +
             "FROM sessions " +
@@ -26,12 +32,19 @@ public class SessionRepositoryImpl implements SessionRepository {
     private static final String SQL_CREATE = "INSERT INTO sessions (ses_name, ses_password, ses_max_attributes, " +
             "ses_image) VALUES (?, ?, ?, ?)";
 
+    private static final String SQL_UPDATE = "UPDATE sessions SET ses_name = ?, ses_password = ?, ses_max_attributes = ?, " +
+            "ses_audit_modified = NOW(), ses_image = ? WHERE ses_id = ?";
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Override
     public List<Session> findAll() throws EtResourceNotFoundException {
-        return null;
+        try {
+            return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{}, sessionRowMapper);
+        } catch (Exception e) {
+            throw new EtResourceNotFoundException("Invalid request");
+        }
     }
 
     @Override
@@ -45,13 +58,13 @@ public class SessionRepositoryImpl implements SessionRepository {
 
     @Override
     public Integer create(String name, String password, Integer maxAttributes, String image) throws EtBadRequestException {
-        //String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, name);
-                ps.setString(2, password);
+                ps.setString(2, hashedPassword);
                 ps.setInt(3, maxAttributes);
                 ps.setString(4, image);
                 return ps;
@@ -63,13 +76,33 @@ public class SessionRepositoryImpl implements SessionRepository {
     }
 
     @Override
-    public void update(Integer sessionId, String name, String password, Integer maxAttributes, String image) throws EtBadRequestException {
-
+    public void update(Integer sessionId, Session session) throws EtBadRequestException {
+        try {
+            jdbcTemplate.update(SQL_UPDATE, session.getName(),
+                    BCrypt.hashpw(session.getPassword(), BCrypt.gensalt(10)),
+                    session.getMaxAttributes(),
+                    session.getImage(),
+                    sessionId);
+        } catch (Exception e) {
+            throw new EtBadRequestException("Invalid request");
+        }
     }
 
     @Override
     public void removeById(Integer sessionId) throws EtResourceNotFoundException {
 
+    }
+
+    @Override
+    public Session findByIdNameAndPassword(Integer sessionId, String name, String password) {
+        try {
+            Session session = jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{sessionId}, sessionRowMapper);
+            if(!BCrypt.checkpw(password, session.getPassword()))
+                throw new RpgAuthException("Invalid id/name/password");
+            return session;
+        } catch (EmptyResultDataAccessException e) {
+            throw new RpgAuthException("Invalid id/name/password");
+        }
     }
 
     private RowMapper<Session> sessionRowMapper = ((rs, rowNum) -> {

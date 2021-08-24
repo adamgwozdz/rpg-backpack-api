@@ -12,9 +12,11 @@ public interface SessionRepository {
 
     Session findById(Integer sessionId) throws EtResourceNotFoundException;
 
+    Session findByIdNameAndPassword(Integer sessionId, String name, String password);
+
     Integer create(String name, String password, Integer maxAttributes, String image) throws EtBadRequestException;
 
-    void update(Integer sessionId, String name, String password, Integer maxAttributes, String image) throws EtBadRequestException;
+    void update(Integer sessionId, Session session) throws EtBadRequestException;
 
     void removeById(Integer sessionId) throws EtResourceNotFoundException;
 }
