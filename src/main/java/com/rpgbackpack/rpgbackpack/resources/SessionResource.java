@@ -19,9 +19,16 @@ public class SessionResource {
     @Autowired
     SessionService sessionService;
 
-    @GetMapping("")
+    @GetMapping("/all")
     public ResponseEntity<List<Session>> getAllSessions() {
         List<Session> sessions = sessionService.fetchAllSessions();
+        return new ResponseEntity<>(sessions, HttpStatus.OK);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<Session>> getAllUserSessions(HttpServletRequest request) {
+        int userId = (Integer) request.getAttribute("userId");
+        List<Session> sessions = sessionService.fetchAllUserSessions(userId);
         return new ResponseEntity<>(sessions, HttpStatus.OK);
     }
 
@@ -42,7 +49,7 @@ public class SessionResource {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<Map<String, Boolean>> loginToSession(@RequestBody Map<String, Object> sessionMap) {
+    public ResponseEntity<Map<String, Boolean>> joinSession(@RequestBody Map<String, Object> sessionMap) {
         Integer sessionId = (Integer) sessionMap.get("sessionId");
         String name = (String) sessionMap.get("name");
         String password = (String) sessionMap.get("password");
@@ -52,7 +59,7 @@ public class SessionResource {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @PostMapping("/{sessionId}")
+    @PostMapping("/update/{sessionId}")
     public ResponseEntity<Map<String, Boolean>> updateSession(HttpServletRequest request, @PathVariable("sessionId") Integer sessionId,
                                                               @RequestBody Session session) {
         //int userId = (Integer) request.getAttribute("userId");

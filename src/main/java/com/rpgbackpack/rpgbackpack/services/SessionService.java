@@ -12,6 +12,8 @@ public interface SessionService {
 
     List<Session> fetchAllSessions() throws EtResourceNotFoundException;
 
+    List<Session> fetchAllUserSessions(Integer userId) throws EtResourceNotFoundException;
+
     Session fetchSessionById(Integer sessionId) throws EtResourceNotFoundException;
 
     Session addSession(String name, String password, Integer maxAttributes, String image) throws EtBadRequestException;

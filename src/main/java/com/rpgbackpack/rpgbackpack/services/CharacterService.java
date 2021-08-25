@@ -12,7 +12,7 @@ public interface CharacterService {
 
     Character fetchCharacterById(Integer sessionId, Integer characterId) throws EtResourceNotFoundException;
 
-    Character addCharacter(Integer userID, Integer sessionID, Boolean gameMaster, String image) throws EtBadRequestException;
+    Character addCharacter(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws EtBadRequestException;
 
     void updateCharacter(Integer characterId, Character character) throws EtBadRequestException;
 

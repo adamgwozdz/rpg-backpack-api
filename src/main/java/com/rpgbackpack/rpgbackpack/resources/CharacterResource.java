@@ -27,9 +27,10 @@ public class CharacterResource {
     public ResponseEntity<Character> addSession(@RequestBody Map<String, Object> characterMap) {
         Integer userID = (Integer) characterMap.get("userID");
         Integer sessionID = (Integer) characterMap.get("sessionID");
+        String name = (String) characterMap.get("name");
         Boolean gameMaster = (Boolean) characterMap.get("gameMaster");
         String image = (String) characterMap.get("image");
-        Character character = characterService.addCharacter(userID, sessionID, gameMaster, image);
+        Character character = characterService.addCharacter(userID, sessionID, name, gameMaster, image);
         return new ResponseEntity<>(character, HttpStatus.CREATED);
     }
 }

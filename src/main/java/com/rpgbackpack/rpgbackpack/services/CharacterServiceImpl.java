@@ -28,9 +28,9 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public Character addCharacter(Integer userID, Integer sessionID, Boolean gameMaster, String image) throws EtBadRequestException {
-        int characterId = characterRepository.create(userID, sessionID, gameMaster, image);
-        return characterRepository.findById(userID, characterId);
+    public Character addCharacter(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws EtBadRequestException {
+        int characterId = characterRepository.create(userID, sessionID, name, gameMaster, image);
+        return characterRepository.findByCharacterId(characterId);
     }
 
     @Override

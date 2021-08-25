@@ -10,6 +10,8 @@ public interface SessionRepository {
 
     List<Session> findAll() throws EtResourceNotFoundException;
 
+    List<Session> findByUserId(Integer userId) throws EtResourceNotFoundException;
+
     Session findById(Integer sessionId) throws EtResourceNotFoundException;
 
     Session findByIdNameAndPassword(Integer sessionId, String name, String password);

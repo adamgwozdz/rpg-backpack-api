@@ -22,7 +22,14 @@ public class SessionRepositoryImpl implements SessionRepository {
 
     private static final String SQL_FIND_ALL = "SELECT ses_id, ses_name, ses_password, ses_max_attributes, " +
             "ses_audit_created, ses_audit_modified, ses_audit_removed, ses_image " +
-            "FROM sessions";
+            "FROM sessions ";
+
+    private static final String SQL_FIND_ALL_BY_USER_ID = "SELECT ses_id, ses_name, ses_password, ses_max_attributes, " +
+            "ses_audit_created, ses_audit_modified, ses_audit_removed, ses_image " +
+            "FROM sessions " +
+            "RIGHT JOIN user_characters ON ses_id = cha_ses_id " +
+            "LEFT JOIN users ON usr_id = cha_usr_id " +
+            "WHERE usr_id = ?";
 
     private static final String SQL_FIND_BY_ID = "SELECT ses_id, ses_name, ses_password, ses_max_attributes, " +
             "ses_audit_created, ses_audit_modified, ses_audit_removed, ses_image " +
@@ -42,6 +49,15 @@ public class SessionRepositoryImpl implements SessionRepository {
     public List<Session> findAll() throws EtResourceNotFoundException {
         try {
             return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{}, sessionRowMapper);
+        } catch (Exception e) {
+            throw new EtResourceNotFoundException("Invalid request");
+        }
+    }
+
+    @Override
+    public List<Session> findByUserId(Integer userId) throws EtResourceNotFoundException {
+        try {
+            return jdbcTemplate.query(SQL_FIND_ALL_BY_USER_ID, new Object[]{userId}, sessionRowMapper);
         } catch (Exception e) {
             throw new EtResourceNotFoundException("Invalid request");
         }

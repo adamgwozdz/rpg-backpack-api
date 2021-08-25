@@ -7,15 +7,17 @@ public class Character {
     private Integer characterId;
     private Integer userID;
     private Integer sessionID;
+    private String name;
     private Boolean gameMaster;
     private Timestamp dateJoined;
     private Timestamp dateLeft;
     private String image;
 
-    public Character(Integer characterId, Integer userID, Integer sessionID, Boolean gameMaster, Timestamp dateJoined, Timestamp dateLeft, String image) {
+    public Character(Integer characterId, Integer userID, Integer sessionID, String name, Boolean gameMaster, Timestamp dateJoined, Timestamp dateLeft, String image) {
         this.characterId = characterId;
         this.userID = userID;
         this.sessionID = sessionID;
+        this.name = name;
         this.gameMaster = gameMaster;
         this.dateJoined = dateJoined;
         this.dateLeft = dateLeft;
@@ -44,6 +46,14 @@ public class Character {
 
     public void setSessionID(Integer sessionID) {
         this.sessionID = sessionID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Boolean getGameMaster() {

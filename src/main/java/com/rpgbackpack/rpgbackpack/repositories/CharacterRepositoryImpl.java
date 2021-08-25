@@ -18,13 +18,13 @@ import java.util.List;
 @Repository
 public class CharacterRepositoryImpl implements CharacterRepository {
 
-    private static final String SQL_FIND_BY_ID = "SELECT cha_id, cha_usr_id, cha_ses_id, cha_game_master," +
+    private static final String SQL_FIND_BY_ID = "SELECT cha_id, cha_usr_id, cha_ses_id, cha_name, cha_game_master," +
             "cha_audit_joined, cha_audit_left, cha_image " +
-            "FROM characters " +
+            "FROM user_characters " +
             "WHERE cha_id = ?";
 
-    private static final String SQL_CREATE = "INSERT INTO characters (cha_usr_id, cha_ses_id, cha_game_master, " +
-            "cha_image) VALUES (?, ?, ?, ?)";
+    private static final String SQL_CREATE = "INSERT INTO user_characters (cha_usr_id, cha_ses_id, cha_name, cha_game_master, " +
+            "cha_image) VALUES (?, ?, ?, ?, ?)";
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -35,7 +35,7 @@ public class CharacterRepositoryImpl implements CharacterRepository {
     }
 
     @Override
-    public Character findById(Integer sessionId, Integer characterId) throws EtResourceNotFoundException {
+    public Character findByCharacterId(Integer characterId) throws EtResourceNotFoundException {
         try {
             return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{characterId}, characterRowMapper);
         } catch (Exception e) {
@@ -44,15 +44,16 @@ public class CharacterRepositoryImpl implements CharacterRepository {
     }
 
     @Override
-    public Integer create(Integer userID, Integer sessionID, Boolean gameMaster, String image) throws EtBadRequestException {
+    public Integer create(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws EtBadRequestException {
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
                 ps.setInt(1, userID);
                 ps.setInt(2, sessionID);
-                ps.setBoolean(3, gameMaster);
-                ps.setString(4, image);
+                ps.setString(3, name);
+                ps.setBoolean(4, gameMaster);
+                ps.setString(5, image);
                 return ps;
             }, keyHolder);
             return (Integer) keyHolder.getKeys().get("cha_id");
@@ -62,7 +63,7 @@ public class CharacterRepositoryImpl implements CharacterRepository {
     }
 
     @Override
-    public void update(Integer characterId, Boolean gameMaster, String image) throws EtBadRequestException {
+    public void update(Integer characterId, String name, Boolean gameMaster, String image) throws EtBadRequestException {
 
     }
 
@@ -75,6 +76,7 @@ public class CharacterRepositoryImpl implements CharacterRepository {
         return new Character(rs.getInt("cha_id"),
                 rs.getInt("cha_usr_id"),
                 rs.getInt("cha_ses_id"),
+                rs.getString("cha_name"),
                 rs.getBoolean("cha_game_master"),
                 rs.getTimestamp("cha_audit_joined"),
                 rs.getTimestamp("cha_audit_left"),

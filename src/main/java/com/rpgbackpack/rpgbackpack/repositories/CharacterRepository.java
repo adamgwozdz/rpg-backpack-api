@@ -10,11 +10,11 @@ public interface CharacterRepository {
 
     List<Character> findAll(Integer sessionId) throws EtResourceNotFoundException;
 
-    Character findById(Integer sessionId, Integer characterId) throws EtResourceNotFoundException;
+    Character findByCharacterId(Integer characterId) throws EtResourceNotFoundException;
 
-    Integer create(Integer userID, Integer sessionID, Boolean gameMaster, String image) throws EtBadRequestException;
+    Integer create(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws EtBadRequestException;
 
-    void update(Integer characterId, Boolean gameMaster, String image) throws EtBadRequestException;
+    void update(Integer characterId, String name, Boolean gameMaster, String image) throws EtBadRequestException;
 
     void removeById(Integer characterId) throws EtResourceNotFoundException;
 }

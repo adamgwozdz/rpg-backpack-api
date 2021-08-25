@@ -24,6 +24,11 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
+    public List<Session> fetchAllUserSessions(Integer userId) throws EtResourceNotFoundException {
+        return sessionRepository.findByUserId(userId);
+    }
+
+    @Override
     public Session fetchSessionById(Integer sessionId) throws EtResourceNotFoundException {
         return sessionRepository.findById(sessionId);
     }
