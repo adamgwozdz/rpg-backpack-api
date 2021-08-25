@@ -1,20 +1,22 @@
 package com.rpgbackpack.rpgbackpack.repositories;
 
 import com.rpgbackpack.rpgbackpack.domain.Character;
-import com.rpgbackpack.rpgbackpack.exceptions.EtBadRequestException;
-import com.rpgbackpack.rpgbackpack.exceptions.EtResourceNotFoundException;
+import com.rpgbackpack.rpgbackpack.exceptions.RpgBadRequestException;
+import com.rpgbackpack.rpgbackpack.exceptions.RpgResourceNotFoundException;
 
 import java.util.List;
 
 public interface CharacterRepository {
 
-    List<Character> findAll(Integer sessionId) throws EtResourceNotFoundException;
+    List<Character> findAll() throws RpgResourceNotFoundException;
 
-    Character findByCharacterId(Integer characterId) throws EtResourceNotFoundException;
+    List<Character> findBySessionId(Integer sessionId) throws RpgResourceNotFoundException;
 
-    Integer create(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws EtBadRequestException;
+    Character findByCharacterId(Integer characterId) throws RpgResourceNotFoundException;
 
-    void update(Integer characterId, String name, Boolean gameMaster, String image) throws EtBadRequestException;
+    Integer create(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws RpgBadRequestException;
 
-    void removeById(Integer characterId) throws EtResourceNotFoundException;
+    void update(Integer characterId, String name, Boolean gameMaster, String image) throws RpgBadRequestException;
+
+    void removeById(Integer characterId) throws RpgResourceNotFoundException;
 }

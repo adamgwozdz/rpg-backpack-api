@@ -1,8 +1,8 @@
 package com.rpgbackpack.rpgbackpack.services;
 
 import com.rpgbackpack.rpgbackpack.domain.Character;
-import com.rpgbackpack.rpgbackpack.exceptions.EtBadRequestException;
-import com.rpgbackpack.rpgbackpack.exceptions.EtResourceNotFoundException;
+import com.rpgbackpack.rpgbackpack.exceptions.RpgBadRequestException;
+import com.rpgbackpack.rpgbackpack.exceptions.RpgResourceNotFoundException;
 import com.rpgbackpack.rpgbackpack.repositories.CharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,28 +18,33 @@ public class CharacterServiceImpl implements CharacterService {
     CharacterRepository characterRepository;
 
     @Override
-    public List<Character> fetchAllPlayers(Integer sessionId) throws EtResourceNotFoundException {
+    public List<Character> fetchAllCharacters() throws RpgResourceNotFoundException {
         return null;
     }
 
     @Override
-    public Character fetchCharacterById(Integer sessionId, Integer characterId) throws EtResourceNotFoundException {
+    public List<Character> fetchAllSessionCharacters(Integer sessionId) throws RpgResourceNotFoundException {
+        return characterRepository.findBySessionId(sessionId);
+    }
+
+    @Override
+    public Character fetchCharacterById(Integer sessionId, Integer characterId) throws RpgResourceNotFoundException {
         return null;
     }
 
     @Override
-    public Character addCharacter(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws EtBadRequestException {
+    public Character addCharacter(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws RpgBadRequestException {
         int characterId = characterRepository.create(userID, sessionID, name, gameMaster, image);
         return characterRepository.findByCharacterId(characterId);
     }
 
     @Override
-    public void updateCharacter(Integer characterId, Character character) throws EtBadRequestException {
+    public void updateCharacter(Integer characterId, Character character) throws RpgBadRequestException {
 
     }
 
     @Override
-    public void removeCharacter(Integer characterId) throws EtResourceNotFoundException {
+    public void removeCharacter(Integer characterId) throws RpgResourceNotFoundException {
 
     }
 }

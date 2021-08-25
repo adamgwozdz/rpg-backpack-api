@@ -1,8 +1,8 @@
 package com.rpgbackpack.rpgbackpack.repositories;
 
 import com.rpgbackpack.rpgbackpack.domain.Session;
-import com.rpgbackpack.rpgbackpack.exceptions.EtBadRequestException;
-import com.rpgbackpack.rpgbackpack.exceptions.EtResourceNotFoundException;
+import com.rpgbackpack.rpgbackpack.exceptions.RpgBadRequestException;
+import com.rpgbackpack.rpgbackpack.exceptions.RpgResourceNotFoundException;
 import com.rpgbackpack.rpgbackpack.exceptions.RpgAuthException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,34 +46,34 @@ public class SessionRepositoryImpl implements SessionRepository {
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Session> findAll() throws EtResourceNotFoundException {
+    public List<Session> findAll() throws RpgResourceNotFoundException {
         try {
             return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{}, sessionRowMapper);
         } catch (Exception e) {
-            throw new EtResourceNotFoundException("Invalid request");
+            throw new RpgResourceNotFoundException("Invalid request");
         }
     }
 
     @Override
-    public List<Session> findByUserId(Integer userId) throws EtResourceNotFoundException {
+    public List<Session> findByUserId(Integer userId) throws RpgResourceNotFoundException {
         try {
             return jdbcTemplate.query(SQL_FIND_ALL_BY_USER_ID, new Object[]{userId}, sessionRowMapper);
         } catch (Exception e) {
-            throw new EtResourceNotFoundException("Invalid request");
+            throw new RpgResourceNotFoundException("Invalid request");
         }
     }
 
     @Override
-    public Session findById(Integer sessionId) throws EtResourceNotFoundException {
+    public Session findById(Integer sessionId) throws RpgResourceNotFoundException {
         try {
             return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{sessionId}, sessionRowMapper);
         } catch (Exception e) {
-            throw new EtResourceNotFoundException("Invalid request");
+            throw new RpgResourceNotFoundException("Invalid request");
         }
     }
 
     @Override
-    public Integer create(String name, String password, Integer maxAttributes, String image) throws EtBadRequestException {
+    public Integer create(String name, String password, Integer maxAttributes, String image) throws RpgBadRequestException {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -87,12 +87,12 @@ public class SessionRepositoryImpl implements SessionRepository {
             }, keyHolder);
             return (Integer) keyHolder.getKeys().get("ses_id");
         } catch (Exception e) {
-            throw new EtBadRequestException("Invalid request");
+            throw new RpgBadRequestException("Invalid request");
         }
     }
 
     @Override
-    public void update(Integer sessionId, Session session) throws EtBadRequestException {
+    public void update(Integer sessionId, Session session) throws RpgBadRequestException {
         try {
             jdbcTemplate.update(SQL_UPDATE, session.getName(),
                     BCrypt.hashpw(session.getPassword(), BCrypt.gensalt(10)),
@@ -100,12 +100,12 @@ public class SessionRepositoryImpl implements SessionRepository {
                     session.getImage(),
                     sessionId);
         } catch (Exception e) {
-            throw new EtBadRequestException("Invalid request");
+            throw new RpgBadRequestException("Invalid request");
         }
     }
 
     @Override
-    public void removeById(Integer sessionId) throws EtResourceNotFoundException {
+    public void removeById(Integer sessionId) throws RpgResourceNotFoundException {
 
     }
 

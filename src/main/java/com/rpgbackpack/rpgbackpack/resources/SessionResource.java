@@ -1,5 +1,6 @@
 package com.rpgbackpack.rpgbackpack.resources;
 
+import com.rpgbackpack.rpgbackpack.domain.Character;
 import com.rpgbackpack.rpgbackpack.domain.Session;
 import com.rpgbackpack.rpgbackpack.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +14,19 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/app/session")
+@RequestMapping("/api/app/session/sessions")
 public class SessionResource {
 
     @Autowired
     SessionService sessionService;
 
-    @GetMapping("/all")
+    @GetMapping("/all-sessions")
     public ResponseEntity<List<Session>> getAllSessions() {
         List<Session> sessions = sessionService.fetchAllSessions();
         return new ResponseEntity<>(sessions, HttpStatus.OK);
     }
 
-    @GetMapping("")
+    @GetMapping("/user-sessions")
     public ResponseEntity<List<Session>> getAllUserSessions(HttpServletRequest request) {
         int userId = (Integer) request.getAttribute("userId");
         List<Session> sessions = sessionService.fetchAllUserSessions(userId);
@@ -38,7 +39,7 @@ public class SessionResource {
         return new ResponseEntity<>(session, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping("")
     public ResponseEntity<Session> addSession(@RequestBody Map<String, Object> sessionMap) {
         String name = (String) sessionMap.get("name");
         String password = (String) sessionMap.get("password");
@@ -48,22 +49,22 @@ public class SessionResource {
         return new ResponseEntity<>(session, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{sessionId}")
+    public ResponseEntity<Map<String, Boolean>> updateSession(HttpServletRequest request, @PathVariable("sessionId") Integer sessionId,
+                                                              @RequestBody Session session) {
+        //int userId = (Integer) request.getAttribute("userId");
+        sessionService.updateSession(sessionId, session);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("message", true);
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
     @PostMapping("/join")
     public ResponseEntity<Map<String, Boolean>> joinSession(@RequestBody Map<String, Object> sessionMap) {
         Integer sessionId = (Integer) sessionMap.get("sessionId");
         String name = (String) sessionMap.get("name");
         String password = (String) sessionMap.get("password");
         //Session session = sessionService.validateSession(sessionId, name, password);
-        Map<String, Boolean> map = new HashMap<>();
-        map.put("message", true);
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-    @PostMapping("/update/{sessionId}")
-    public ResponseEntity<Map<String, Boolean>> updateSession(HttpServletRequest request, @PathVariable("sessionId") Integer sessionId,
-                                                              @RequestBody Session session) {
-        //int userId = (Integer) request.getAttribute("userId");
-        sessionService.updateSession(sessionId, session);
         Map<String, Boolean> map = new HashMap<>();
         map.put("message", true);
         return new ResponseEntity<>(map, HttpStatus.OK);

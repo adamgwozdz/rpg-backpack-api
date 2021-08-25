@@ -2,8 +2,8 @@ package com.rpgbackpack.rpgbackpack.repositories;
 
 
 import com.rpgbackpack.rpgbackpack.domain.Character;
-import com.rpgbackpack.rpgbackpack.exceptions.EtBadRequestException;
-import com.rpgbackpack.rpgbackpack.exceptions.EtResourceNotFoundException;
+import com.rpgbackpack.rpgbackpack.exceptions.RpgBadRequestException;
+import com.rpgbackpack.rpgbackpack.exceptions.RpgResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,10 +18,14 @@ import java.util.List;
 @Repository
 public class CharacterRepositoryImpl implements CharacterRepository {
 
-    private static final String SQL_FIND_BY_ID = "SELECT cha_id, cha_usr_id, cha_ses_id, cha_name, cha_game_master," +
+    private static final String SQL_FIND_BY_CHARACTER_ID = "SELECT cha_id, cha_usr_id, cha_ses_id, cha_name, cha_game_master," +
             "cha_audit_joined, cha_audit_left, cha_image " +
             "FROM user_characters " +
             "WHERE cha_id = ?";
+
+    private static final String SQL_FIND_BY_SESSION_ID = "SELECT * FROM user_characters\n" +
+            "LEFT JOIN sessions ON ses_id = cha_ses_id\n" +
+            "WHERE ses_id = ?";
 
     private static final String SQL_CREATE = "INSERT INTO user_characters (cha_usr_id, cha_ses_id, cha_name, cha_game_master, " +
             "cha_image) VALUES (?, ?, ?, ?, ?)";
@@ -30,21 +34,30 @@ public class CharacterRepositoryImpl implements CharacterRepository {
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Character> findAll(Integer sessionId) throws EtResourceNotFoundException {
+    public List<Character> findAll() throws RpgResourceNotFoundException {
         return null;
     }
 
     @Override
-    public Character findByCharacterId(Integer characterId) throws EtResourceNotFoundException {
+    public Character findByCharacterId(Integer characterId) throws RpgResourceNotFoundException {
         try {
-            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{characterId}, characterRowMapper);
+            return jdbcTemplate.queryForObject(SQL_FIND_BY_CHARACTER_ID, new Object[]{characterId}, characterRowMapper);
         } catch (Exception e) {
-            throw new EtResourceNotFoundException("Invalid request");
+            throw new RpgResourceNotFoundException("Invalid request");
         }
     }
 
     @Override
-    public Integer create(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws EtBadRequestException {
+    public List<Character> findBySessionId(Integer sessionId) throws RpgResourceNotFoundException {
+        try {
+            return jdbcTemplate.query(SQL_FIND_BY_SESSION_ID, new Object[]{sessionId}, characterRowMapper);
+        } catch (Exception e) {
+            throw new RpgResourceNotFoundException("Invalid request");
+        }
+    }
+
+    @Override
+    public Integer create(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws RpgBadRequestException {
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
@@ -58,17 +71,17 @@ public class CharacterRepositoryImpl implements CharacterRepository {
             }, keyHolder);
             return (Integer) keyHolder.getKeys().get("cha_id");
         } catch (Exception e) {
-            throw new EtBadRequestException("Invalid request");
+            throw new RpgBadRequestException("Invalid request");
         }
     }
 
     @Override
-    public void update(Integer characterId, String name, Boolean gameMaster, String image) throws EtBadRequestException {
+    public void update(Integer characterId, String name, Boolean gameMaster, String image) throws RpgBadRequestException {
 
     }
 
     @Override
-    public void removeById(Integer characterId) throws EtResourceNotFoundException {
+    public void removeById(Integer characterId) throws RpgResourceNotFoundException {
 
     }
 
