@@ -31,6 +31,7 @@ public class UserResource {
                 .setIssuedAt(new Date(timestamp))
                 .setExpiration(new Date(timestamp + Constants.TOKEN_VALIDITY))
                 .claim("userId", user.getUserId())
+                .claim("statusId", user.getStatusId())
                 .claim("email", user.getEmail())
                 .claim("name", user.getName())
                 .compact();

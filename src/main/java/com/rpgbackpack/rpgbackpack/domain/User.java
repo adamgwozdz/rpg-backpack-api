@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class User {
 
     private Integer userId;
+    private Integer statusId;
     private String email;
     private String name;
     private String password;
@@ -17,10 +18,11 @@ public class User {
     private Boolean admin;
     private String profileImage;
 
-    public User(Integer userId, String email, String name, String password, Boolean emailVerified, Boolean subscription,
+    public User(Integer userId, Integer statusId, String email, String name, String password, Boolean emailVerified, Boolean subscription,
                 Timestamp dateCreated, Timestamp dateModified, Timestamp dateRemoved,
                 Timestamp dateSubscribed, Boolean admin, String profileImage) {
         this.userId = userId;
+        this.statusId = statusId;
         this.email = email;
         this.name = name;
         this.password = password;
@@ -40,6 +42,14 @@ public class User {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
     }
 
     public String getEmail() {

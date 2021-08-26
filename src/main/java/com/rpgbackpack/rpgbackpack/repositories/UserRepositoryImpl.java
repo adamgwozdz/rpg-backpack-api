@@ -22,11 +22,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     private static final String SQL_COUNT_BY_EMAIL = "SELECT COUNT(usr_id) FROM USERS WHERE usr_email = ?";
 
-    private static final String SQL_FIND_BY_ID = "SELECT usr_id, usr_email, usr_name, usr_password, usr_email_verified, usr_subscription, " +
+    private static final String SQL_FIND_BY_ID = "SELECT usr_id, usr_sta_id, usr_email, usr_name, usr_password, usr_email_verified, usr_subscription, " +
             "usr_audit_created, usr_audit_modified, usr_audit_removed, usr_audit_subscribed, usr_admin, usr_profile_image " +
             "FROM users WHERE usr_id = ?";
 
-    private static final String SQL_FIND_BY_EMAIL = "SELECT usr_id, usr_email, usr_name, usr_password, usr_email_verified, usr_subscription, " +
+    private static final String SQL_FIND_BY_EMAIL = "SELECT usr_id, usr_sta_id, usr_email, usr_name, usr_password, usr_email_verified, usr_subscription, " +
             "usr_audit_created, usr_audit_modified, usr_audit_removed, usr_audit_subscribed, usr_admin, usr_profile_image " +
             "FROM users WHERE usr_email = ?";
 
@@ -76,6 +76,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     private RowMapper<User> userRowMapper = ((rs, rowNum) -> {
         return new User(rs.getInt("usr_id"),
+                rs.getInt("usr_sta_id"),
                 rs.getString("usr_email"),
                 rs.getString("usr_name"),
                 rs.getString("usr_password"),
