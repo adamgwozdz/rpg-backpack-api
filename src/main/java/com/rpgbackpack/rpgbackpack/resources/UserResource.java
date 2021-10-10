@@ -36,12 +36,12 @@ public class UserResource {
                 .claim("name", user.getName())
                 .claim("emailVerified", user.getEmailVerified())
                 .claim("subscription", user.getSubscription())
+                .claim("admin", user.getAdmin())
                 .claim("dateCreated", user.getDateCreated())
+                .claim("profileImage", user.getProfileImage())
+                .claim("dateSubscribed", user.getDateSubscribed())
                 .claim("dateModified", user.getDateModified())
                 .claim("dateRemoved", user.getDateRemoved())
-                .claim("dateSubscribed", user.getDateSubscribed())
-                .claim("admin", user.getAdmin())
-                .claim("profileImage", user.getProfileImage())
                 .compact();
         Map<String, String> map = new HashMap<>();
         map.put("token", token);
