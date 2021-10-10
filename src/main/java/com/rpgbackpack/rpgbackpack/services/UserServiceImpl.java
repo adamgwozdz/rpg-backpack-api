@@ -30,6 +30,8 @@ public class UserServiceImpl implements UserService {
             email = email.toLowerCase();
         if (!pattern.matcher(email).matches())
             throw new RpgAuthException("Invalid email format");
+        if (name.length() > 14)
+            throw new RpgAuthException("Name too long");
         Integer count = userRepository.getCountByEmail(email);
         if(count > 0)
             throw new RpgAuthException("Email already in use");
