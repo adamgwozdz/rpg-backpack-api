@@ -1,7 +1,7 @@
 package com.rpgbackpack.rpgbackpack.resources;
 
-import com.rpgbackpack.rpgbackpack.domain.Character;
 import com.rpgbackpack.rpgbackpack.domain.Session;
+import com.rpgbackpack.rpgbackpack.services.CharacterService;
 import com.rpgbackpack.rpgbackpack.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +19,9 @@ public class SessionResource {
 
     @Autowired
     SessionService sessionService;
+
+    @Autowired
+    CharacterService characterService;
 
     @GetMapping("/all-sessions")
     public ResponseEntity<List<Session>> getAllSessions() {
@@ -40,12 +43,12 @@ public class SessionResource {
     }
 
     @PostMapping("")
-    public ResponseEntity<Session> addSession(@RequestBody Map<String, Object> sessionMap) {
+    public ResponseEntity<Session> createSession(@RequestBody Map<String, Object> sessionMap) {
         String name = (String) sessionMap.get("name");
         String password = (String) sessionMap.get("password");
         Integer maxAttributes = (Integer) sessionMap.get("maxAttributes");
         String image = (String) sessionMap.get("image");
-        Session session = sessionService.addSession(name, password, maxAttributes, image);
+        Session session = sessionService.createSession(name, password, maxAttributes, image);
         return new ResponseEntity<>(session, HttpStatus.CREATED);
     }
 
@@ -60,13 +63,10 @@ public class SessionResource {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<Map<String, Boolean>> joinSession(@RequestBody Map<String, Object> sessionMap) {
+    public ResponseEntity<Session> joinSession(@RequestBody Map<String, Object> sessionMap) {
         Integer sessionId = (Integer) sessionMap.get("sessionId");
-        String name = (String) sessionMap.get("name");
         String password = (String) sessionMap.get("password");
-        //Session session = sessionService.validateSession(sessionId, name, password);
-        Map<String, Boolean> map = new HashMap<>();
-        map.put("message", true);
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        Session session = sessionService.validateSession(sessionId, password);
+        return new ResponseEntity<>(session, HttpStatus.OK);
     }
 }

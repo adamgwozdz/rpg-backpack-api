@@ -14,7 +14,7 @@ public interface SessionRepository {
 
     Session findById(Integer sessionId) throws RpgResourceNotFoundException;
 
-    Session findByIdNameAndPassword(Integer sessionId, String name, String password);
+    Session authorizeByIdAndPassword(Integer sessionId, String password);
 
     Integer create(String name, String password, Integer maxAttributes, String image) throws RpgBadRequestException;
 

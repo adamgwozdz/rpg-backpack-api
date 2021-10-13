@@ -110,14 +110,14 @@ public class SessionRepositoryImpl implements SessionRepository {
     }
 
     @Override
-    public Session findByIdNameAndPassword(Integer sessionId, String name, String password) {
+    public Session authorizeByIdAndPassword(Integer sessionId, String password) {
         try {
             Session session = jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{sessionId}, sessionRowMapper);
             if(!BCrypt.checkpw(password, session.getPassword()))
-                throw new RpgAuthException("Invalid id/name/password");
+                throw new RpgAuthException("Invalid session ID or password");
             return session;
         } catch (EmptyResultDataAccessException e) {
-            throw new RpgAuthException("Invalid id/name/password");
+            throw new RpgAuthException("Invalid session ID or password");
         }
     }
 

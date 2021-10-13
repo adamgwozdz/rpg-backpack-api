@@ -34,7 +34,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public Session addSession(String name, String password, Integer maxAttributes, String image) throws RpgBadRequestException {
+    public Session createSession(String name, String password, Integer maxAttributes, String image) throws RpgBadRequestException {
         int sessionId = sessionRepository.create(name, password, maxAttributes, image);
         return sessionRepository.findById(sessionId);
     }
@@ -50,7 +50,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public Session validateSession(Integer sessionId, String name, String password) throws RpgAuthException {
-        return sessionRepository.findByIdNameAndPassword(sessionId, name, password);
+    public Session validateSession(Integer sessionId, String password) throws RpgAuthException {
+        return sessionRepository.authorizeByIdAndPassword(sessionId, password);
     }
 }

@@ -15,11 +15,11 @@ public interface SessionService {
 
     Session fetchSessionById(Integer sessionId) throws RpgResourceNotFoundException;
 
-    Session addSession(String name, String password, Integer maxAttributes, String image) throws RpgBadRequestException;
+    Session createSession(String name, String password, Integer maxAttributes, String image) throws RpgBadRequestException;
 
     void updateSession(Integer sessionId, Session session) throws RpgBadRequestException;
 
     void removeSessionWithAllPlayers(Integer sessionId) throws RpgResourceNotFoundException;
 
-    Session validateSession(Integer sessionId, String name, String password) throws RpgAuthException;
+    Session validateSession(Integer sessionId, String password) throws RpgAuthException;
 }
