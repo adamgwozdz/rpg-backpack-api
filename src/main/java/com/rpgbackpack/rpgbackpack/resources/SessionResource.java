@@ -31,13 +31,13 @@ public class SessionResource {
 
     @GetMapping("/user-sessions")
     public ResponseEntity<List<Session>> getAllUserSessions(HttpServletRequest request) {
-        int userId = (Integer) request.getAttribute("userId");
-        List<Session> sessions = sessionService.fetchAllUserSessions(userId);
+        int userID = (Integer) request.getAttribute("userID");
+        List<Session> sessions = sessionService.fetchAllUserSessions(userID);
         return new ResponseEntity<>(sessions, HttpStatus.OK);
     }
 
-    @GetMapping("/{sessionId}")
-    public ResponseEntity<Session> getSessionById(@PathVariable("sessionId") Integer sessionId) {
+    @GetMapping("/{sessionID}")
+    public ResponseEntity<Session> getSessionById(@PathVariable("sessionID") Integer sessionId) {
         Session session = sessionService.fetchSessionById(sessionId);
         return new ResponseEntity<>(session, HttpStatus.OK);
     }
@@ -52,10 +52,10 @@ public class SessionResource {
         return new ResponseEntity<>(session, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{sessionId}")
-    public ResponseEntity<Map<String, Boolean>> updateSession(HttpServletRequest request, @PathVariable("sessionId") Integer sessionId,
+    @PutMapping("/{sessionID}")
+    public ResponseEntity<Map<String, Boolean>> updateSession(HttpServletRequest request, @PathVariable("sessionID") Integer sessionId,
                                                               @RequestBody Session session) {
-        //int userId = (Integer) request.getAttribute("userId");
+        //int userId = (Integer) request.getAttribute("userID");
         sessionService.updateSession(sessionId, session);
         Map<String, Boolean> map = new HashMap<>();
         map.put("message", true);
@@ -64,9 +64,9 @@ public class SessionResource {
 
     @PostMapping("/join")
     public ResponseEntity<Session> joinSession(@RequestBody Map<String, Object> sessionMap) {
-        Integer sessionId = (Integer) sessionMap.get("sessionId");
+        Integer sessionID = (Integer) sessionMap.get("sessionID");
         String password = (String) sessionMap.get("password");
-        Session session = sessionService.validateSession(sessionId, password);
+        Session session = sessionService.joinSession(sessionID, password);
         return new ResponseEntity<>(session, HttpStatus.OK);
     }
 }

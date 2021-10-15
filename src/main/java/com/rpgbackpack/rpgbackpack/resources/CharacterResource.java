@@ -21,24 +21,24 @@ public class CharacterResource {
 
     @GetMapping("/all-characters")
     public String getAllCharacters(HttpServletRequest request) {
-        int userId = (Integer) request.getAttribute("userId");
-        return "Authenticated UserId " + userId;
+        int userID = (Integer) request.getAttribute("userID");
+        return "Authenticated UserId " + userID;
     }
 
-    @GetMapping("/{sessionId}")
-    public ResponseEntity<List<Character>> getSessionCharacters(@PathVariable("sessionId") Integer sessionId) {
-        List<Character> characters = characterService.fetchAllSessionCharacters(sessionId);
+    @GetMapping("/{sessionID}")
+    public ResponseEntity<List<Character>> getSessionCharacters(@PathVariable("sessionID") Integer sessionID) {
+        List<Character> characters = characterService.fetchAllSessionCharacters(sessionID);
         return new ResponseEntity<>(characters, HttpStatus.OK);
     }
 
-    @PostMapping("/{sessionId}")
-    public ResponseEntity<Character> addCharacter(@PathVariable("sessionId") Integer sessionId,
+    @PostMapping("/{sessionID}")
+    public ResponseEntity<Character> addCharacter(@PathVariable("sessionID") Integer sessionID,
                                                   @RequestBody Map<String, Object> characterMap) {
         Integer userID = (Integer) characterMap.get("userID");
         String name = (String) characterMap.get("name");
         Boolean gameMaster = (Boolean) characterMap.get("gameMaster");
         String image = (String) characterMap.get("image");
-        Character character = characterService.addCharacter(userID, sessionId, name, gameMaster, image);
+        Character character = characterService.addCharacter(userID, sessionID, name, gameMaster, image);
         return new ResponseEntity<>(character, HttpStatus.CREATED);
     }
 }

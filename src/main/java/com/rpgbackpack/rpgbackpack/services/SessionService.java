@@ -11,15 +11,15 @@ public interface SessionService {
 
     List<Session> fetchAllSessions() throws RpgResourceNotFoundException;
 
-    List<Session> fetchAllUserSessions(Integer userId) throws RpgResourceNotFoundException;
+    List<Session> fetchAllUserSessions(Integer userID) throws RpgResourceNotFoundException;
 
-    Session fetchSessionById(Integer sessionId) throws RpgResourceNotFoundException;
+    Session fetchSessionById(Integer sessionID) throws RpgResourceNotFoundException;
 
     Session createSession(String name, String password, Integer maxAttributes, String image) throws RpgBadRequestException;
 
-    void updateSession(Integer sessionId, Session session) throws RpgBadRequestException;
+    void updateSession(Integer sessionID, Session session) throws RpgBadRequestException;
 
-    void removeSessionWithAllPlayers(Integer sessionId) throws RpgResourceNotFoundException;
+    void removeSessionWithAllPlayers(Integer sessionID) throws RpgResourceNotFoundException;
 
-    Session validateSession(Integer sessionId, String password) throws RpgAuthException;
+    Session joinSession(Integer sessionID, String password) throws RpgAuthException;
 }

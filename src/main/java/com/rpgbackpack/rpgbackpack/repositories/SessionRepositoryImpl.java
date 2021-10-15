@@ -55,18 +55,18 @@ public class SessionRepositoryImpl implements SessionRepository {
     }
 
     @Override
-    public List<Session> findByUserId(Integer userId) throws RpgResourceNotFoundException {
+    public List<Session> findByUserId(Integer userID) throws RpgResourceNotFoundException {
         try {
-            return jdbcTemplate.query(SQL_FIND_ALL_BY_USER_ID, new Object[]{userId}, sessionRowMapper);
+            return jdbcTemplate.query(SQL_FIND_ALL_BY_USER_ID, new Object[]{userID}, sessionRowMapper);
         } catch (Exception e) {
             throw new RpgResourceNotFoundException("Invalid request");
         }
     }
 
     @Override
-    public Session findById(Integer sessionId) throws RpgResourceNotFoundException {
+    public Session findById(Integer sessionID) throws RpgResourceNotFoundException {
         try {
-            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{sessionId}, sessionRowMapper);
+            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{sessionID}, sessionRowMapper);
         } catch (Exception e) {
             throw new RpgResourceNotFoundException("Invalid request");
         }
@@ -92,27 +92,27 @@ public class SessionRepositoryImpl implements SessionRepository {
     }
 
     @Override
-    public void update(Integer sessionId, Session session) throws RpgBadRequestException {
+    public void update(Integer sessionID, Session session) throws RpgBadRequestException {
         try {
             jdbcTemplate.update(SQL_UPDATE, session.getName(),
                     BCrypt.hashpw(session.getPassword(), BCrypt.gensalt(10)),
                     session.getMaxAttributes(),
                     session.getImage(),
-                    sessionId);
+                    sessionID);
         } catch (Exception e) {
             throw new RpgBadRequestException("Invalid request");
         }
     }
 
     @Override
-    public void removeById(Integer sessionId) throws RpgResourceNotFoundException {
+    public void removeById(Integer sessionID) throws RpgResourceNotFoundException {
 
     }
 
     @Override
-    public Session authorizeByIdAndPassword(Integer sessionId, String password) {
+    public Session authorizeByIdAndPassword(Integer sessionID, String password) {
         try {
-            Session session = jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{sessionId}, sessionRowMapper);
+            Session session = jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{sessionID}, sessionRowMapper);
             if(!BCrypt.checkpw(password, session.getPassword()))
                 throw new RpgAuthException("Invalid session ID or password");
             return session;

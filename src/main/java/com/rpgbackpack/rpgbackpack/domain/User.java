@@ -4,8 +4,8 @@ import java.sql.Timestamp;
 
 public class User {
 
-    private Integer userId;
-    private Integer statusId;
+    private Integer userID;
+    private Integer statusID;
     private String email;
     private String name;
     private String password;
@@ -18,11 +18,11 @@ public class User {
     private Boolean admin;
     private String profileImage;
 
-    public User(Integer userId, Integer statusId, String email, String name, String password, Boolean emailVerified, Boolean subscription,
+    public User(Integer userID, Integer statusID, String email, String name, String password, Boolean emailVerified, Boolean subscription,
                 Timestamp dateCreated, Timestamp dateModified, Timestamp dateRemoved,
                 Timestamp dateSubscribed, Boolean admin, String profileImage) {
-        this.userId = userId;
-        this.statusId = statusId;
+        this.userID = userID;
+        this.statusID = statusID;
         this.email = email;
         this.name = name;
         this.password = password;
@@ -36,20 +36,20 @@ public class User {
         this.profileImage = profileImage;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getUserID() {
+        return userID;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUserID(Integer userID) {
+        this.userID = userID;
     }
 
-    public Integer getStatusId() {
-        return statusId;
+    public Integer getStatusID() {
+        return statusID;
     }
 
-    public void setStatusId(Integer statusId) {
-        this.statusId = statusId;
+    public void setStatusID(Integer statusID) {
+        this.statusID = statusID;
     }
 
     public String getEmail() {

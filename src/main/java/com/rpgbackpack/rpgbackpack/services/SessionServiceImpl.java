@@ -24,13 +24,13 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public List<Session> fetchAllUserSessions(Integer userId) throws RpgResourceNotFoundException {
-        return sessionRepository.findByUserId(userId);
+    public List<Session> fetchAllUserSessions(Integer userID) throws RpgResourceNotFoundException {
+        return sessionRepository.findByUserId(userID);
     }
 
     @Override
-    public Session fetchSessionById(Integer sessionId) throws RpgResourceNotFoundException {
-        return sessionRepository.findById(sessionId);
+    public Session fetchSessionById(Integer sessionID) throws RpgResourceNotFoundException {
+        return sessionRepository.findById(sessionID);
     }
 
     @Override
@@ -40,17 +40,17 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void updateSession(Integer sessionId, Session session) throws RpgBadRequestException {
-        sessionRepository.update(sessionId, session);
+    public void updateSession(Integer sessionID, Session session) throws RpgBadRequestException {
+        sessionRepository.update(sessionID, session);
     }
 
     @Override
-    public void removeSessionWithAllPlayers(Integer sessionId) throws RpgResourceNotFoundException {
+    public void removeSessionWithAllPlayers(Integer sessionID) throws RpgResourceNotFoundException {
 
     }
 
     @Override
-    public Session validateSession(Integer sessionId, String password) throws RpgAuthException {
-        return sessionRepository.authorizeByIdAndPassword(sessionId, password);
+    public Session joinSession(Integer sessionID, String password) throws RpgAuthException {
+        return sessionRepository.authorizeByIdAndPassword(sessionID, password);
     }
 }

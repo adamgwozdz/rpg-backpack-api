@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class Session {
 
-    private Integer sessionId;
+    private Integer sessionID;
     private String name;
     private String password;
     private Integer maxAttributes;
@@ -13,8 +13,8 @@ public class Session {
     private Timestamp dateRemoved;
     private String image;
 
-    public Session(Integer sessionId, String name, String password, Integer maxAttributes, Timestamp dateCreated, Timestamp dateModified, Timestamp dateRemoved, String image) {
-        this.sessionId = sessionId;
+    public Session(Integer sessionID, String name, String password, Integer maxAttributes, Timestamp dateCreated, Timestamp dateModified, Timestamp dateRemoved, String image) {
+        this.sessionID = sessionID;
         this.name = name;
         this.password = password;
         this.maxAttributes = maxAttributes;
@@ -24,12 +24,12 @@ public class Session {
         this.image = image;
     }
 
-    public Integer getSessionId() {
-        return sessionId;
+    public Integer getSessionID() {
+        return sessionID;
     }
 
-    public void setSessionId(Integer sessionId) {
-        this.sessionId = sessionId;
+    public void setSessionID(Integer sessionID) {
+        this.sessionID = sessionID;
     }
 
     public String getName() {

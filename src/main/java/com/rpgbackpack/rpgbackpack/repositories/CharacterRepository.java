@@ -10,13 +10,13 @@ public interface CharacterRepository {
 
     List<Character> findAll() throws RpgResourceNotFoundException;
 
-    List<Character> findBySessionId(Integer sessionId) throws RpgResourceNotFoundException;
+    List<Character> findBySessionId(Integer sessionID) throws RpgResourceNotFoundException;
 
-    Character findByCharacterId(Integer characterId) throws RpgResourceNotFoundException;
+    Character findByCharacterId(Integer characterID) throws RpgResourceNotFoundException;
 
     Integer create(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws RpgBadRequestException;
 
-    void update(Integer characterId, String name, Boolean gameMaster, String image) throws RpgBadRequestException;
+    void update(Integer characterID, String name, Boolean gameMaster, String image) throws RpgBadRequestException;
 
-    void removeById(Integer characterId) throws RpgResourceNotFoundException;
+    void removeById(Integer characterID) throws RpgResourceNotFoundException;
 }

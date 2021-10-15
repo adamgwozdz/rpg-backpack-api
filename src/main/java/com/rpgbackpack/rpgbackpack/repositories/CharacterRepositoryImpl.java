@@ -39,18 +39,18 @@ public class CharacterRepositoryImpl implements CharacterRepository {
     }
 
     @Override
-    public Character findByCharacterId(Integer characterId) throws RpgResourceNotFoundException {
+    public Character findByCharacterId(Integer characterID) throws RpgResourceNotFoundException {
         try {
-            return jdbcTemplate.queryForObject(SQL_FIND_BY_CHARACTER_ID, new Object[]{characterId}, characterRowMapper);
+            return jdbcTemplate.queryForObject(SQL_FIND_BY_CHARACTER_ID, new Object[]{characterID}, characterRowMapper);
         } catch (Exception e) {
             throw new RpgResourceNotFoundException("Invalid request");
         }
     }
 
     @Override
-    public List<Character> findBySessionId(Integer sessionId) throws RpgResourceNotFoundException {
+    public List<Character> findBySessionId(Integer sessionID) throws RpgResourceNotFoundException {
         try {
-            return jdbcTemplate.query(SQL_FIND_BY_SESSION_ID, new Object[]{sessionId}, characterRowMapper);
+            return jdbcTemplate.query(SQL_FIND_BY_SESSION_ID, new Object[]{sessionID}, characterRowMapper);
         } catch (Exception e) {
             throw new RpgResourceNotFoundException("Invalid request");
         }
@@ -76,12 +76,12 @@ public class CharacterRepositoryImpl implements CharacterRepository {
     }
 
     @Override
-    public void update(Integer characterId, String name, Boolean gameMaster, String image) throws RpgBadRequestException {
+    public void update(Integer characterID, String name, Boolean gameMaster, String image) throws RpgBadRequestException {
 
     }
 
     @Override
-    public void removeById(Integer characterId) throws RpgResourceNotFoundException {
+    public void removeById(Integer characterID) throws RpgResourceNotFoundException {
 
     }
 

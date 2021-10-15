@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class Character {
 
-    private Integer characterId;
+    private Integer characterID;
     private Integer userID;
     private Integer sessionID;
     private String name;
@@ -13,8 +13,8 @@ public class Character {
     private Timestamp dateLeft;
     private String image;
 
-    public Character(Integer characterId, Integer userID, Integer sessionID, String name, Boolean gameMaster, Timestamp dateJoined, Timestamp dateLeft, String image) {
-        this.characterId = characterId;
+    public Character(Integer characterID, Integer userID, Integer sessionID, String name, Boolean gameMaster, Timestamp dateJoined, Timestamp dateLeft, String image) {
+        this.characterID = characterID;
         this.userID = userID;
         this.sessionID = sessionID;
         this.name = name;
@@ -24,12 +24,12 @@ public class Character {
         this.image = image;
     }
 
-    public Integer getCharacterId() {
-        return characterId;
+    public Integer getCharacterID() {
+        return characterID;
     }
 
-    public void setCharacterId(Integer characterId) {
-        this.characterId = characterId;
+    public void setCharacterID(Integer characterID) {
+        this.characterID = characterID;
     }
 
     public Integer getUserID() {

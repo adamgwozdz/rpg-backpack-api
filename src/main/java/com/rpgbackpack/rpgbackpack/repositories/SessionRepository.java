@@ -10,15 +10,15 @@ public interface SessionRepository {
 
     List<Session> findAll() throws RpgResourceNotFoundException;
 
-    List<Session> findByUserId(Integer userId) throws RpgResourceNotFoundException;
+    List<Session> findByUserId(Integer userID) throws RpgResourceNotFoundException;
 
-    Session findById(Integer sessionId) throws RpgResourceNotFoundException;
+    Session findById(Integer sessionID) throws RpgResourceNotFoundException;
 
-    Session authorizeByIdAndPassword(Integer sessionId, String password);
+    Session authorizeByIdAndPassword(Integer sessionID, String password);
 
     Integer create(String name, String password, Integer maxAttributes, String image) throws RpgBadRequestException;
 
-    void update(Integer sessionId, Session session) throws RpgBadRequestException;
+    void update(Integer sessionID, Session session) throws RpgBadRequestException;
 
-    void removeById(Integer sessionId) throws RpgResourceNotFoundException;
+    void removeById(Integer sessionID) throws RpgResourceNotFoundException;
 }

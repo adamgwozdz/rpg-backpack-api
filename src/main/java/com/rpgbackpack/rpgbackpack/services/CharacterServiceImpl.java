@@ -23,28 +23,28 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public List<Character> fetchAllSessionCharacters(Integer sessionId) throws RpgResourceNotFoundException {
-        return characterRepository.findBySessionId(sessionId);
+    public List<Character> fetchAllSessionCharacters(Integer sessionID) throws RpgResourceNotFoundException {
+        return characterRepository.findBySessionId(sessionID);
     }
 
     @Override
-    public Character fetchCharacterById(Integer sessionId, Integer characterId) throws RpgResourceNotFoundException {
+    public Character fetchCharacterById(Integer sessionID, Integer characterID) throws RpgResourceNotFoundException {
         return null;
     }
 
     @Override
     public Character addCharacter(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws RpgBadRequestException {
-        int characterId = characterRepository.create(userID, sessionID, name, gameMaster, image);
-        return characterRepository.findByCharacterId(characterId);
+        int characterID = characterRepository.create(userID, sessionID, name, gameMaster, image);
+        return characterRepository.findByCharacterId(characterID);
     }
 
     @Override
-    public void updateCharacter(Integer characterId, Character character) throws RpgBadRequestException {
+    public void updateCharacter(Integer characterID, Character character) throws RpgBadRequestException {
 
     }
 
     @Override
-    public void removeCharacter(Integer characterId) throws RpgResourceNotFoundException {
+    public void removeCharacter(Integer characterID) throws RpgResourceNotFoundException {
 
     }
 }

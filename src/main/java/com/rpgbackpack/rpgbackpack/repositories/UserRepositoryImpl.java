@@ -70,8 +70,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User findById(Integer userId) {
-        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId}, userRowMapper);
+    public User findById(Integer userID) {
+        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userID}, userRowMapper);
     }
 
     private RowMapper<User> userRowMapper = ((rs, rowNum) -> {
