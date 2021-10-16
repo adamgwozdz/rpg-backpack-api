@@ -1,6 +1,8 @@
 package com.rpgbackpack.rpgbackpack.services;
 
+import com.rpgbackpack.rpgbackpack.FIELDS;
 import com.rpgbackpack.rpgbackpack.domain.Character;
+import com.rpgbackpack.rpgbackpack.exceptions.RpgAuthException;
 import com.rpgbackpack.rpgbackpack.exceptions.RpgBadRequestException;
 import com.rpgbackpack.rpgbackpack.exceptions.RpgResourceNotFoundException;
 import com.rpgbackpack.rpgbackpack.repositories.CharacterRepository;
@@ -34,6 +36,10 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public Character addCharacter(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws RpgBadRequestException {
+        if (name.length() > FIELDS.CHARACTER_NAME.maxLength)
+            throw new RpgAuthException("Name too long (max " + FIELDS.CHARACTER_NAME.maxLength + " characters)");
+        if (name.length() < FIELDS.CHARACTER_NAME.minLength)
+            throw new RpgAuthException("Name too short (min " + FIELDS.CHARACTER_NAME.minLength + " characters)");
         int characterID = characterRepository.create(userID, sessionID, name, gameMaster, image);
         return characterRepository.findByCharacterId(characterID);
     }

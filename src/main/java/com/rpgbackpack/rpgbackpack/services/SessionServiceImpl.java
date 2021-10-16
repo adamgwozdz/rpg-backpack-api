@@ -1,5 +1,6 @@
 package com.rpgbackpack.rpgbackpack.services;
 
+import com.rpgbackpack.rpgbackpack.FIELDS;
 import com.rpgbackpack.rpgbackpack.domain.Session;
 import com.rpgbackpack.rpgbackpack.exceptions.RpgBadRequestException;
 import com.rpgbackpack.rpgbackpack.exceptions.RpgResourceNotFoundException;
@@ -35,6 +36,10 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public Session createSession(String name, String password, Integer maxAttributes, String image) throws RpgBadRequestException {
+        if (name.length() > FIELDS.SESSION_NAME.maxLength)
+            throw new RpgAuthException("Name too long (max " + FIELDS.USERNAME.maxLength + " characters)");
+        if (name.length() < FIELDS.SESSION_NAME.minLength)
+            throw new RpgAuthException("Name too short (min " + FIELDS.USERNAME.minLength + " characters)");
         int sessionId = sessionRepository.create(name, password, maxAttributes, image);
         return sessionRepository.findById(sessionId);
     }
