@@ -1,6 +1,7 @@
 package com.rpgbackpack.rpgbackpack.domain;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Session {
 
@@ -12,6 +13,7 @@ public class Session {
     private Timestamp dateModified;
     private Timestamp dateRemoved;
     private String image;
+    private List<Character> characters;
 
     public Session(Integer sessionID, String name, String password, Integer maxAttributes, Timestamp dateCreated, Timestamp dateModified, Timestamp dateRemoved, String image) {
         this.sessionID = sessionID;
@@ -86,5 +88,13 @@ public class Session {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public List<Character> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<Character> characters) {
+        this.characters = characters;
     }
 }

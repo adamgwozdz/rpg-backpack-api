@@ -26,6 +26,9 @@ public class SessionResource {
     @GetMapping("/all-sessions")
     public ResponseEntity<List<Session>> getAllSessions() {
         List<Session> sessions = sessionService.fetchAllSessions();
+        for (Session session : sessions) {
+            session.setCharacters(characterService.fetchAllSessionCharacters(session.getSessionID()));
+        }
         return new ResponseEntity<>(sessions, HttpStatus.OK);
     }
 
@@ -33,12 +36,16 @@ public class SessionResource {
     public ResponseEntity<List<Session>> getAllUserSessions(HttpServletRequest request) {
         int userID = (Integer) request.getAttribute("userID");
         List<Session> sessions = sessionService.fetchAllUserSessions(userID);
+        for (Session session : sessions) {
+            session.setCharacters(characterService.fetchAllSessionCharacters(session.getSessionID()));
+        }
         return new ResponseEntity<>(sessions, HttpStatus.OK);
     }
 
     @GetMapping("/{sessionID}")
     public ResponseEntity<Session> getSessionById(@PathVariable("sessionID") Integer sessionId) {
         Session session = sessionService.fetchSessionById(sessionId);
+        session.setCharacters(characterService.fetchAllSessionCharacters(session.getSessionID()));
         return new ResponseEntity<>(session, HttpStatus.OK);
     }
 

@@ -24,7 +24,7 @@ public class SessionRepositoryImpl implements SessionRepository {
             "ses_audit_created, ses_audit_modified, ses_audit_removed, ses_image " +
             "FROM sessions ";
 
-    private static final String SQL_FIND_ALL_BY_USER_ID = "SELECT ses_id, ses_name, ses_password, ses_max_attributes, " +
+    private static final String SQL_FIND_ALL_BY_USER_ID = "SELECT DISTINCT ses_id, ses_name, ses_password, ses_max_attributes, " +
             "ses_audit_created, ses_audit_modified, ses_audit_removed, ses_image " +
             "FROM sessions " +
             "RIGHT JOIN user_characters ON ses_id = cha_ses_id " +
