@@ -19,4 +19,6 @@ public interface CharacterRepository {
     void update(Integer characterID, String name, Boolean gameMaster, String image) throws RpgBadRequestException;
 
     void removeById(Integer characterID) throws RpgResourceNotFoundException;
+
+    Integer getCountByUserAndSessionID(Integer userID, Integer sessionID);
 }

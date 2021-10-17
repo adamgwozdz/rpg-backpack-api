@@ -40,6 +40,9 @@ public class CharacterServiceImpl implements CharacterService {
             throw new RpgAuthException("Name too long (max " + FIELDS.CHARACTER_NAME.maxLength + " characters)");
         if (name.length() < FIELDS.CHARACTER_NAME.minLength)
             throw new RpgAuthException("Name too short (min " + FIELDS.CHARACTER_NAME.minLength + " characters)");
+        Integer count = characterRepository.getCountByUserAndSessionID(userID, sessionID);
+        if(count > 1)
+            throw new RpgAuthException("You have already joined this session");
         int characterID = characterRepository.create(userID, sessionID, name, gameMaster, image);
         return characterRepository.findByCharacterId(characterID);
     }

@@ -72,8 +72,14 @@ public class SessionResource {
     @PostMapping("/join")
     public ResponseEntity<Session> joinSession(@RequestBody Map<String, Object> sessionMap) {
         Integer sessionID = (Integer) sessionMap.get("sessionID");
+        Integer userID = (Integer) sessionMap.get("userID");
         String password = (String) sessionMap.get("password");
+        String name = (String) sessionMap.get("name");
+        Boolean gameMaster = (Boolean) sessionMap.get("gameMaster");
+        String image = (String) sessionMap.get("image");
         Session session = sessionService.joinSession(sessionID, password);
+        characterService.addCharacter(userID, sessionID, name, gameMaster, image);
+        session.setCharacters(characterService.fetchAllSessionCharacters(session.getSessionID()));
         return new ResponseEntity<>(session, HttpStatus.OK);
     }
 }

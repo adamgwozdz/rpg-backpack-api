@@ -30,6 +30,10 @@ public class CharacterRepositoryImpl implements CharacterRepository {
     private static final String SQL_CREATE = "INSERT INTO user_characters (cha_usr_id, cha_ses_id, cha_name, cha_game_master, " +
             "cha_image) VALUES (?, ?, ?, ?, ?)";
 
+    private static final String SQL_COUNT_BY_USER_AND_SESSION_ID = "SELECT COUNT(cha_id) FROM sessions\n" +
+            "LEFT JOIN user_characters ON ses_id = cha_ses_id\n" +
+            "WHERE cha_usr_id = ? AND cha_ses_id = ?";
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -83,6 +87,11 @@ public class CharacterRepositoryImpl implements CharacterRepository {
     @Override
     public void removeById(Integer characterID) throws RpgResourceNotFoundException {
 
+    }
+
+    @Override
+    public Integer getCountByUserAndSessionID(Integer userID, Integer sessionID) {
+        return jdbcTemplate.queryForObject(SQL_COUNT_BY_USER_AND_SESSION_ID, new Object[]{userID, sessionID}, Integer.class);
     }
 
     private RowMapper<Character> characterRowMapper = ((rs, rowNum) -> {
