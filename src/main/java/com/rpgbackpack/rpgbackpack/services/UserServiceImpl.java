@@ -35,11 +35,11 @@ public class UserServiceImpl implements UserService {
             throw new RpgAuthException("Name too long (max " + FIELDS.USERNAME.maxLength + " characters)");
         if (name.length() < FIELDS.USERNAME.minLength)
             throw new RpgAuthException("Name too short (min " + FIELDS.USERNAME.minLength + " characters)");
-        /* Will be obsolete when client side password encryption will be implemented */
-//        if (password.length() > FIELDS.USER_PASSWORD.maxLength)
-//            throw new RpgAuthException("Password too long (max " + FIELDS.USER_PASSWORD.maxLength + " characters)");
-//        if (password.length() < FIELDS.USER_PASSWORD.minLength)
-//            throw new RpgAuthException("Password too short (min " + FIELDS.USER_PASSWORD.minLength + " characters)");
+        //TODO Will be obsolete when client side password encryption will be implemented
+        if (password.length() > FIELDS.USER_PASSWORD.maxLength)
+            throw new RpgAuthException("Password too long (max " + FIELDS.USER_PASSWORD.maxLength + " characters)");
+        if (password.length() < FIELDS.USER_PASSWORD.minLength)
+            throw new RpgAuthException("Password too short (min " + FIELDS.USER_PASSWORD.minLength + " characters)");
         Integer count = userRepository.getCountByEmail(email);
         if(count > 0)
             throw new RpgAuthException("Email already in use");

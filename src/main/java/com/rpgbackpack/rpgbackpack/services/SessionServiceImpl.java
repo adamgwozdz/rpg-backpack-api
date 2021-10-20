@@ -40,6 +40,11 @@ public class SessionServiceImpl implements SessionService {
             throw new RpgAuthException("Name too long (max " + FIELDS.USERNAME.maxLength + " characters)");
         if (name.length() < FIELDS.SESSION_NAME.minLength)
             throw new RpgAuthException("Name too short (min " + FIELDS.USERNAME.minLength + " characters)");
+        //TODO Will be obsolete when client side password encryption will be implemented
+        if (password.length() > FIELDS.SESSION_PASSWORD.maxLength)
+            throw new RpgAuthException("Password too long (max " + FIELDS.USER_PASSWORD.maxLength + " characters)");
+        if (password.length() < FIELDS.SESSION_PASSWORD.minLength)
+            throw new RpgAuthException("Password too short (min " + FIELDS.USER_PASSWORD.minLength + " characters)");
         int sessionId = sessionRepository.create(name, password, maxAttributes, image);
         return sessionRepository.findById(sessionId);
     }
