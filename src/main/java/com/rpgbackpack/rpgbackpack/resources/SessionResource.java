@@ -82,4 +82,11 @@ public class SessionResource {
         session.setCharacters(characterService.fetchAllSessionCharacters(session.getSessionID()));
         return new ResponseEntity<>(session, HttpStatus.OK);
     }
+
+    @DeleteMapping("/remove/{sessionID}")
+    public ResponseEntity<String> removeSession(@PathVariable("sessionID") Integer sessionID) {
+        characterService.removeSessionCharacters(sessionID);
+        sessionService.removeSession(sessionID);
+        return new ResponseEntity<>("Session removed", HttpStatus.OK);
+    }
 }

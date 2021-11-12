@@ -17,9 +17,9 @@ public interface SessionService {
 
     Session createSession(String name, String password, Integer maxAttributes, String image) throws RpgBadRequestException;
 
-    void updateSession(Integer sessionID, Session session) throws RpgBadRequestException;
-
-    void removeSessionWithAllPlayers(Integer sessionID) throws RpgResourceNotFoundException;
-
     Session joinSession(Integer sessionID, String password) throws RpgAuthException;
+
+    Session updateSession(Integer sessionID, Session session) throws RpgBadRequestException;
+
+    void removeSession(Integer sessionID) throws RpgResourceNotFoundException;
 }

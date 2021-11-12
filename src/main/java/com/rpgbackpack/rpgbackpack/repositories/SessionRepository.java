@@ -18,7 +18,7 @@ public interface SessionRepository {
 
     Integer create(String name, String password, Integer maxAttributes, String image) throws RpgBadRequestException;
 
-    void update(Integer sessionID, Session session) throws RpgBadRequestException;
+    Session update(Integer sessionID, Session session) throws RpgBadRequestException;
 
     void removeById(Integer sessionID) throws RpgResourceNotFoundException;
 }

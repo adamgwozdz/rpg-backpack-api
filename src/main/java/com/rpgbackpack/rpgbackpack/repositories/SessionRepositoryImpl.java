@@ -42,6 +42,8 @@ public class SessionRepositoryImpl implements SessionRepository {
     private static final String SQL_UPDATE = "UPDATE sessions SET ses_name = ?, ses_password = ?, ses_max_attributes = ?, " +
             "ses_audit_modified = NOW(), ses_image = ? WHERE ses_id = ?";
 
+    private static final String SQL_DELETE = "DELETE FROM sessions WHERE ses_id = ?";
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -92,13 +94,18 @@ public class SessionRepositoryImpl implements SessionRepository {
     }
 
     @Override
-    public void update(Integer sessionID, Session session) throws RpgBadRequestException {
+    public Session update(Integer sessionID, Session session) throws RpgBadRequestException {
         try {
-            jdbcTemplate.update(SQL_UPDATE, session.getName(),
-                    BCrypt.hashpw(session.getPassword(), BCrypt.gensalt(10)),
-                    session.getMaxAttributes(),
-                    session.getImage(),
-                    sessionID);
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(SQL_UPDATE);
+                ps.setString(1, session.getName());
+                ps.setString(2, BCrypt.hashpw(session.getPassword(), BCrypt.gensalt(10)));
+                ps.setInt(3, session.getMaxAttributes());
+                ps.setString(4, session.getImage());
+                ps.setInt(5, sessionID);
+                return ps;
+            });
+            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{sessionID}, sessionRowMapper);
         } catch (Exception e) {
             throw new RpgBadRequestException("Invalid request");
         }
@@ -106,7 +113,11 @@ public class SessionRepositoryImpl implements SessionRepository {
 
     @Override
     public void removeById(Integer sessionID) throws RpgResourceNotFoundException {
-
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(SQL_DELETE);
+            ps.setInt(1, sessionID);
+            return ps;
+        });
     }
 
     @Override

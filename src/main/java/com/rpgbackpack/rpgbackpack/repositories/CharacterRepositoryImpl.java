@@ -34,7 +34,9 @@ public class CharacterRepositoryImpl implements CharacterRepository {
             "LEFT JOIN user_characters ON ses_id = cha_ses_id\n" +
             "WHERE cha_usr_id = ? AND cha_ses_id = ?";
 
-    private static final String SQL_DELETE = "DELETE FROM user_characters WHERE cha_id = ?";
+    private static final String SQL_DELETE_BY_CHARACTER_ID = "DELETE FROM user_characters WHERE cha_id = ?";
+
+    private static final String SQL_DELETE_BY_SESSION_ID = "DELETE FROM user_characters WHERE cha_ses_id = ?";
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -86,10 +88,19 @@ public class CharacterRepositoryImpl implements CharacterRepository {
     }
 
     @Override
-    public void removeById(Integer characterID) throws RpgResourceNotFoundException {
+    public void removeByCharacterId(Integer characterID) throws RpgResourceNotFoundException {
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(SQL_DELETE);
+            PreparedStatement ps = connection.prepareStatement(SQL_DELETE_BY_CHARACTER_ID);
             ps.setInt(1, characterID);
+            return ps;
+        });
+    }
+
+    @Override
+    public void removeBySessionId(Integer sessionID) throws RpgResourceNotFoundException {
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(SQL_DELETE_BY_SESSION_ID);
+            ps.setInt(1, sessionID);
             return ps;
         });
     }

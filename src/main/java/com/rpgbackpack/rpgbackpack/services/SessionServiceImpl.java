@@ -50,13 +50,13 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void updateSession(Integer sessionID, Session session) throws RpgBadRequestException {
-        sessionRepository.update(sessionID, session);
+    public Session updateSession(Integer sessionID, Session session) throws RpgBadRequestException {
+        return sessionRepository.update(sessionID, session);
     }
 
     @Override
-    public void removeSessionWithAllPlayers(Integer sessionID) throws RpgResourceNotFoundException {
-
+    public void removeSession(Integer sessionID) throws RpgResourceNotFoundException {
+        sessionRepository.removeById(sessionID);
     }
 
     @Override

@@ -19,4 +19,6 @@ public interface CharacterService {
     void updateCharacter(Integer characterID, Character character) throws RpgBadRequestException;
 
     void removeCharacter(Integer characterID) throws RpgResourceNotFoundException;
+
+    void removeSessionCharacters(Integer sessionID) throws RpgResourceNotFoundException;
 }
