@@ -34,6 +34,8 @@ public class CharacterRepositoryImpl implements CharacterRepository {
             "LEFT JOIN user_characters ON ses_id = cha_ses_id\n" +
             "WHERE cha_usr_id = ? AND cha_ses_id = ?";
 
+    private static final String SQL_DELETE = "DELETE FROM user_characters WHERE cha_id = ?";
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -81,12 +83,15 @@ public class CharacterRepositoryImpl implements CharacterRepository {
 
     @Override
     public void update(Integer characterID, String name, Boolean gameMaster, String image) throws RpgBadRequestException {
-
     }
 
     @Override
     public void removeById(Integer characterID) throws RpgResourceNotFoundException {
-
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(SQL_DELETE);
+            ps.setInt(1, characterID);
+            return ps;
+        });
     }
 
     @Override

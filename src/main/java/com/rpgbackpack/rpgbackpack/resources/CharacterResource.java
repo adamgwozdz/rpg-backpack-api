@@ -41,4 +41,10 @@ public class CharacterResource {
         Character character = characterService.addCharacter(userID, sessionID, name, gameMaster, image);
         return new ResponseEntity<>(character, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/remove/{characterID}")
+    public ResponseEntity<String> removeCharacter(@PathVariable("characterID") Integer characterID) {
+        characterService.removeCharacter(characterID);
+        return new ResponseEntity<>("Character deleted", HttpStatus.OK);
+    }
 }

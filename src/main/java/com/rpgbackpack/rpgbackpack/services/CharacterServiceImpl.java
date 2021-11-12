@@ -54,6 +54,6 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public void removeCharacter(Integer characterID) throws RpgResourceNotFoundException {
-
+        characterRepository.removeById(characterID);
     }
 }
