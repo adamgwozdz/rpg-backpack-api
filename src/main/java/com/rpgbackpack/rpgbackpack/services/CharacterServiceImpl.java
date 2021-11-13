@@ -48,8 +48,8 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public void updateCharacter(Integer characterID, Character character) throws RpgBadRequestException {
-
+    public Character updateCharacter(Integer characterID, Character character) throws RpgBadRequestException {
+        return characterRepository.update(characterID, character);
     }
 
     @Override

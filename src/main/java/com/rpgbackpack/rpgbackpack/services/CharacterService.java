@@ -16,7 +16,7 @@ public interface CharacterService {
 
     Character addCharacter(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws RpgBadRequestException;
 
-    void updateCharacter(Integer characterID, Character character) throws RpgBadRequestException;
+    Character updateCharacter(Integer characterID, Character character) throws RpgBadRequestException;
 
     void removeCharacter(Integer characterID) throws RpgResourceNotFoundException;
 

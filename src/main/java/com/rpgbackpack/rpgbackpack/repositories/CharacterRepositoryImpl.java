@@ -4,6 +4,7 @@ package com.rpgbackpack.rpgbackpack.repositories;
 import com.rpgbackpack.rpgbackpack.domain.Character;
 import com.rpgbackpack.rpgbackpack.exceptions.RpgBadRequestException;
 import com.rpgbackpack.rpgbackpack.exceptions.RpgResourceNotFoundException;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -37,6 +38,8 @@ public class CharacterRepositoryImpl implements CharacterRepository {
     private static final String SQL_COUNT_BY_USER_AND_SESSION_ID = "SELECT COUNT(cha_id) FROM sessions\n" +
             "LEFT JOIN user_characters ON ses_id = cha_ses_id\n" +
             "WHERE cha_usr_id = ? AND cha_ses_id = ?";
+
+    private static final String SQL_UPDATE = "UPDATE user_characters SET cha_name = ?, cha_game_master = ?, cha_image = ? WHERE cha_id = ?";
 
     private static final String SQL_DELETE_BY_CHARACTER_ID = "DELETE FROM user_characters WHERE cha_id = ?";
 
@@ -92,7 +95,20 @@ public class CharacterRepositoryImpl implements CharacterRepository {
     }
 
     @Override
-    public void update(Integer characterID, String name, Boolean gameMaster, String image) throws RpgBadRequestException {
+    public Character update(Integer characterID, Character character) throws RpgBadRequestException {
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(SQL_UPDATE);
+                ps.setString(1, character.getName());
+                ps.setBoolean(2, character.getGameMaster());
+                ps.setString(3, character.getImage());
+                ps.setInt(4, characterID);
+                return ps;
+            });
+            return jdbcTemplate.queryForObject(SQL_FIND_BY_CHARACTER_ID, new Object[]{characterID}, characterRowMapper);
+        } catch (Exception e) {
+            throw new RpgBadRequestException("Invalid request");
+        }
     }
 
     @Override

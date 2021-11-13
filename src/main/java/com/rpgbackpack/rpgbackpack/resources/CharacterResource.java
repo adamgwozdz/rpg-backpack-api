@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,9 +43,19 @@ public class CharacterResource {
         return new ResponseEntity<>(character, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{characterID}")
+    public ResponseEntity<Map<String, Boolean>> updateCharacter(@PathVariable("characterID") Integer characterID, @RequestBody Character character) {
+        characterService.updateCharacter(characterID, character);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("success", true);
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
     @DeleteMapping("/remove/{characterID}")
-    public ResponseEntity<String> removeCharacter(@PathVariable("characterID") Integer characterID) {
+    public ResponseEntity<Map<String, Boolean>> removeCharacter(@PathVariable("characterID") Integer characterID) {
         characterService.removeCharacter(characterID);
-        return new ResponseEntity<>("Character deleted", HttpStatus.OK);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("success", true);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }
