@@ -21,7 +21,7 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public List<Character> fetchAllCharacters() throws RpgResourceNotFoundException {
-        return null;
+        return characterRepository.findAll();
     }
 
     @Override

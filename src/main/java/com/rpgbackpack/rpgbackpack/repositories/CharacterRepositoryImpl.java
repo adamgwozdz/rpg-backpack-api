@@ -18,6 +18,10 @@ import java.util.List;
 @Repository
 public class CharacterRepositoryImpl implements CharacterRepository {
 
+    private static final String SQL_FIND_ALL = "SELECT cha_id, cha_usr_id, cha_ses_id, cha_name, cha_game_master," +
+            "cha_audit_joined, cha_audit_left, cha_image " +
+            "FROM user_characters";
+
     private static final String SQL_FIND_BY_CHARACTER_ID = "SELECT cha_id, cha_usr_id, cha_ses_id, cha_name, cha_game_master," +
             "cha_audit_joined, cha_audit_left, cha_image " +
             "FROM user_characters " +
@@ -43,7 +47,11 @@ public class CharacterRepositoryImpl implements CharacterRepository {
 
     @Override
     public List<Character> findAll() throws RpgResourceNotFoundException {
-        return null;
+        try {
+            return jdbcTemplate.query(SQL_FIND_ALL, characterRowMapper);
+        } catch (Exception e) {
+            throw new RpgResourceNotFoundException("Invalid request");
+        }
     }
 
     @Override
@@ -89,25 +97,37 @@ public class CharacterRepositoryImpl implements CharacterRepository {
 
     @Override
     public void removeByCharacterId(Integer characterID) throws RpgResourceNotFoundException {
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(SQL_DELETE_BY_CHARACTER_ID);
-            ps.setInt(1, characterID);
-            return ps;
-        });
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(SQL_DELETE_BY_CHARACTER_ID);
+                ps.setInt(1, characterID);
+                return ps;
+            });
+        } catch (Exception e) {
+            throw new RpgBadRequestException("Invalid request");
+        }
     }
 
     @Override
     public void removeBySessionId(Integer sessionID) throws RpgResourceNotFoundException {
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(SQL_DELETE_BY_SESSION_ID);
-            ps.setInt(1, sessionID);
-            return ps;
-        });
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(SQL_DELETE_BY_SESSION_ID);
+                ps.setInt(1, sessionID);
+                return ps;
+            });
+        } catch (Exception e) {
+            throw new RpgResourceNotFoundException("Invalid request");
+        }
     }
 
     @Override
     public Integer getCountByUserAndSessionID(Integer userID, Integer sessionID) {
-        return jdbcTemplate.queryForObject(SQL_COUNT_BY_USER_AND_SESSION_ID, new Object[]{userID, sessionID}, Integer.class);
+        try {
+            return jdbcTemplate.queryForObject(SQL_COUNT_BY_USER_AND_SESSION_ID, new Object[]{userID, sessionID}, Integer.class);
+        } catch (Exception e) {
+            throw new RpgResourceNotFoundException("Invalid request");
+        }
     }
 
     private RowMapper<Character> characterRowMapper = ((rs, rowNum) -> {

@@ -20,9 +20,9 @@ public class CharacterResource {
     CharacterService characterService;
 
     @GetMapping("/all-characters")
-    public String getAllCharacters(HttpServletRequest request) {
-        int userID = (Integer) request.getAttribute("userID");
-        return "Authenticated UserId " + userID;
+    public ResponseEntity<List<Character>> getAllCharacters() {
+        List<Character> characters = characterService.fetchAllCharacters();
+        return new ResponseEntity<>(characters, HttpStatus.OK);
     }
 
     @GetMapping("/{sessionID}")
