@@ -26,10 +26,16 @@ public class CharacterResource {
         return new ResponseEntity<>(characters, HttpStatus.OK);
     }
 
-    @GetMapping("/{sessionID}")
+    @GetMapping("/session/{sessionID}")
     public ResponseEntity<List<Character>> getSessionCharacters(@PathVariable("sessionID") Integer sessionID) {
         List<Character> characters = characterService.fetchAllSessionCharacters(sessionID);
         return new ResponseEntity<>(characters, HttpStatus.OK);
+    }
+
+    @GetMapping("/{characterID}")
+    public ResponseEntity<Character> getCharacter(@PathVariable("characterID") Integer characterID) {
+        Character character = characterService.fetchCharacterById(characterID);
+        return new ResponseEntity<>(character, HttpStatus.OK);
     }
 
     @PostMapping("/{sessionID}")

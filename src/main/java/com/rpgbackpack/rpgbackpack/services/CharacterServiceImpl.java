@@ -30,8 +30,8 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public Character fetchCharacterById(Integer sessionID, Integer characterID) throws RpgResourceNotFoundException {
-        return null;
+    public Character fetchCharacterById(Integer characterID) throws RpgResourceNotFoundException {
+        return characterRepository.findByCharacterId(characterID);
     }
 
     @Override

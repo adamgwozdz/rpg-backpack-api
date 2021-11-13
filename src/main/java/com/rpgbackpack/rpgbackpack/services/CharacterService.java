@@ -12,7 +12,7 @@ public interface CharacterService {
 
     List<Character> fetchAllSessionCharacters(Integer sessionID) throws RpgResourceNotFoundException;
 
-    Character fetchCharacterById(Integer sessionID, Integer characterID) throws RpgResourceNotFoundException;
+    Character fetchCharacterById(Integer characterID) throws RpgResourceNotFoundException;
 
     Character addCharacter(Integer userID, Integer sessionID, String name, Boolean gameMaster, String image) throws RpgBadRequestException;
 
