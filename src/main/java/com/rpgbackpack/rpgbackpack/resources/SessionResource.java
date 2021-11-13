@@ -59,16 +59,6 @@ public class SessionResource {
         return new ResponseEntity<>(session, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{sessionID}")
-    public ResponseEntity<Map<String, Boolean>> updateSession(HttpServletRequest request, @PathVariable("sessionID") Integer sessionId,
-                                                              @RequestBody Session session) {
-        //int userId = (Integer) request.getAttribute("userID");
-        sessionService.updateSession(sessionId, session);
-        Map<String, Boolean> map = new HashMap<>();
-        map.put("message", true);
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
     @PostMapping("/join")
     public ResponseEntity<Session> joinSession(@RequestBody Map<String, Object> sessionMap) {
         Integer sessionID = (Integer) sessionMap.get("sessionID");
@@ -83,10 +73,20 @@ public class SessionResource {
         return new ResponseEntity<>(session, HttpStatus.OK);
     }
 
+    @PutMapping("/{sessionID}")
+    public ResponseEntity<Map<String, Boolean>> updateSession(@PathVariable("sessionID") Integer sessionId, @RequestBody Session session) {
+        sessionService.updateSession(sessionId, session);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("success", true);
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
     @DeleteMapping("/remove/{sessionID}")
-    public ResponseEntity<String> removeSession(@PathVariable("sessionID") Integer sessionID) {
+    public ResponseEntity<Map<String, Boolean>> removeSession(@PathVariable("sessionID") Integer sessionID) {
         characterService.removeSessionCharacters(sessionID);
         sessionService.removeSession(sessionID);
-        return new ResponseEntity<>("Session removed", HttpStatus.OK);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("success", true);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }
