@@ -105,7 +105,7 @@ public class CharacterRepositoryImpl implements CharacterRepository {
                 ps.setInt(4, characterID);
                 return ps;
             });
-            return jdbcTemplate.queryForObject(SQL_FIND_BY_CHARACTER_ID, characterRowMapper);
+            return jdbcTemplate.queryForObject(SQL_FIND_BY_CHARACTER_ID, characterRowMapper, characterID);
         } catch (Exception e) {
             throw new RpgBadRequestException("Invalid request");
         }
