@@ -28,9 +28,10 @@ public class CharacterRepositoryImpl implements CharacterRepository {
             "FROM user_characters " +
             "WHERE cha_id = ?";
 
-    private static final String SQL_FIND_BY_SESSION_ID = "SELECT * FROM user_characters " +
-            "LEFT JOIN sessions ON ses_id = cha_ses_id " +
-            "WHERE ses_id = ?";
+    private static final String SQL_FIND_BY_SESSION_ID = "SELECT * FROM user_characters\n" +
+            "LEFT JOIN sessions ON ses_id = cha_ses_id\n" +
+            "WHERE ses_id = ?\n" +
+            "ORDER BY cha_game_master DESC, cha_name ASC";
 
     private static final String SQL_CREATE = "INSERT INTO user_characters (cha_usr_id, cha_ses_id, cha_name, cha_game_master, " +
             "cha_image) VALUES (?, ?, ?, ?, ?)";
