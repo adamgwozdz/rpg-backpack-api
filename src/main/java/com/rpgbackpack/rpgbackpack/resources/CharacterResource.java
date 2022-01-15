@@ -57,7 +57,7 @@ public class CharacterResource {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
-    @DeleteMapping("/remove/{characterID}")
+    @DeleteMapping("/{characterID}")
     public ResponseEntity<Map<String, Boolean>> removeCharacter(@PathVariable("characterID") Integer characterID) {
         characterService.removeCharacter(characterID);
         Map<String, Boolean> map = new HashMap<>();
